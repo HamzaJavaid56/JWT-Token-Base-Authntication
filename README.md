@@ -2,13 +2,12 @@
 
 1. Install the following packages
  
-   a.   Microsoft.EntityFrameworkCore.SqlServer
-   b.   Microsoft.EntityFrameworkCore.Tools
-   c.   Microsoft.AspNetCore.Authentication
-   d.   Microsoft.AspNetCore.Authentication.JwtBearer
+   Microsoft.EntityFrameworkCore.SqlServer, Microsoft.EntityFrameworkCore.Tools,Microsoft.AspNetCore.Authentication , Microsoft.AspNetCore.Authentication.JwtBearer
 2. Configuration in startup.cs file
-    public class Startup
-    {
+ 
+    
+        public class Startup
+        {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,8 +30,8 @@
                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {
-                   
-                   var serverSecret = new SymmetricSecurityKey(Encoding.UTF8. GetBytes(Configuration["JWT:key"]));
+
+                   var serverSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"]));
                    options.SaveToken = true;
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
@@ -73,10 +72,13 @@
         }
     }
 
+    
+    
+
 3. Create the controller for authtication
  
- public class JWTController : ControllerBase
-    {
+        public class JWTController : ControllerBase
+       {
         private IConfiguration _config;
         private IJWTManagerRepo _iJWTManagerRepo;
 
@@ -100,24 +102,25 @@
      }
      
   4. Create Services
-   public interface IJWTManagerRepo
-    {
-        Task<string> AuthenticateUser(LoginModel user);
-        
-    }
+    
+    
+           public interface IJWTManagerRepo
+           {
+              Task<string> AuthenticateUser(LoginModel user);
+            }
   
-      public class JWTManagerRepo : IJWTManagerRepo
-    {
-        private Billing_DB_Backup_May_2022Context _context;
-        private IConfiguration _config;
-        public JWTManagerRepo(IConfiguration config)
-        {
-            _context = new Billing_DB_Backup_May_2022Context();
-            _config = config;
-        }
+            public class JWTManagerRepo : IJWTManagerRepo
+            {
+              private Billing_DB_Backup_May_2022Context _context;
+              private IConfiguration _config;
+              public JWTManagerRepo(IConfiguration config)
+              {
+              _context = new Billing_DB_Backup_May_2022Context();
+              _config = config;
+              }
 
-        public async Task<string> AuthenticateUser(LoginModel user)
-        {
+              public async Task<string> AuthenticateUser(LoginModel user)
+               {
             
             string token = "";
             var res = await _context.AdminTbls.Where(x=>x.UserName==user.Username && x.Passwrd==user.Password).FirstOrDefaultAsync();
@@ -128,10 +131,12 @@
             return token;
         }
         #region BuildToken
-        private string BuildToken(AdminTbl user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+       
+       
+             private string BuildToken(AdminTbl user)
+             {
+             var tokenHandler = new JwtSecurityTokenHandler();
+             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             // tokenDescriptor
             var tokenDescriptor = new SecurityTokenDescriptor
