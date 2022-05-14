@@ -2,7 +2,13 @@
 
 1. Install the following packages
  
-   Microsoft.EntityFrameworkCore.SqlServer, Microsoft.EntityFrameworkCore.Tools,Microsoft.AspNetCore.Authentication , Microsoft.AspNetCore.Authentication.JwtBearer
+ 
+  * Microsoft.EntityFrameworkCore.SqlServer
+  * Microsoft.EntityFrameworkCore.Tools
+  * Microsoft.AspNetCore.Authentication  
+  * Microsoft.AspNetCore.Authentication.JwtBearer
+   
+   
 2. Configuration in startup.cs file
  
     
